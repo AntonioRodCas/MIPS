@@ -1,0 +1,59 @@
+ /******************************************************************* 
+* Name:
+*	PC.v
+* Description:
+* 	This module is parameterizable Program Counter
+* Inputs:
+*	clk: Clock signal 
+*  reset: Reset signal
+*	enable: Enable input
+* Outputs:
+* 	PC: Program Counter
+* Versión:  
+*	1.0
+* Author: 
+*	José Antonio Rodríguez Castañeda  md193781
+* Date :
+*	V1.0       15/11/2018
+* 
+*********************************************************************/
+module MIPS
+#(
+	// Parameter Declarations
+	parameter WORD_LENGTH = 32
+)
+
+(
+	// Input Ports
+	input clk,
+	input reset,
+	input start,
+	
+	// Output Ports
+	output SerialOut
+
+);
+
+
+//MIPS instance
+
+PC
+#(
+	.WORD_LENGTH(WORD_LENGTH),
+	.SHIFT_LR ( 1 )
+) 
+SR_R_MULTIPLIER			   	//Multiplier shift register
+(
+	.D(Data_2C),
+	.clk(clk),
+	.reset(reset),
+	.load(load_Multiplier),
+	.shift(shift),
+	
+	.Q(multiplier_reg)
+
+);
+
+
+
+endmodule

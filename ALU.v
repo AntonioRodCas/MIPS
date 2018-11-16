@@ -1,0 +1,128 @@
+ /*********************************************************
+ * Description:
+ * This module is a comportamental ALU with case sentence
+ * 	Inputs:
+ *			A: Input data
+ *			B: Input data
+ *			Control: To select operation to be executed
+ *		Outputs:
+ *			C: Output data
+ *			Carry: Overflow detection
+ *
+ *	Author:  Antonio Rodríguez    md193781   ITESO 
+ *	Date:    29/08/18
+ *
+ **********************************************************/
+module ALU 
+#(
+	parameter WORD_LENGTH = 32										//Input parameter definition
+)
+
+(
+	input [WORD_LENGTH-1:0] A,						
+	input [WORD_LENGTH-1:0]	B,
+	input [4:0] control,
+	
+	output [WORD_LENGTH-1:0] C,
+	output [WORD_LENGTH-1:0] carry
+);
+
+reg [WORD_LENGTH-1:0] C_reg;
+wire [WORD_LENGTH:0] carry_w;
+
+
+	always@(A,B,control) begin
+		case (control[3:0])
+			4'b0000: C_reg = A+B;   								//Addition
+			4'b0001: C_reg = A-B;									//Substraction
+			4'b0010: C_reg = A*B;									//Multiplication
+			4'b0011: C_reg = ~A;										//Negation
+			4'b0100: C_reg = ~A+ 1'b1;             			//Two's complement
+			4'b0101: C_reg = A&B;									//AND	
+			4'b0110: C_reg = A|B;									//OR
+			4'b0111: C_reg = A^B;									//XOR
+			4'b1000: begin
+							if (control[4]) begin  						//Shift left
+								case (B[4:0])
+									5'b00001: C_reg = A<<1;   								//Shift left 1 position
+									5'b00010: C_reg = A<<2;   								//Shift left 2 position
+									5'b00011: C_reg = A<<3;   								//Shift left 3 position
+								   5'b00100: C_reg = A<<4;   								//Shift left 4 position
+									5'b00101: C_reg = A<<5;   								//Shift left 5 position
+									5'b00110: C_reg = A<<6;   								//Shift left 6 position
+									5'b00111: C_reg = A<<7;   								//Shift left 7 position
+									5'b01000: C_reg = A<<8;   								//Shift left 8 position
+									5'b01001: C_reg = A<<9;   								//Shift left 9 position
+									5'b01010: C_reg = A<<10;   							//Shift left 10 position
+									5'b01011: C_reg = A<<11;   							//Shift left 11 position
+								   5'b01100: C_reg = A<<12;   							//Shift left 12 position
+									5'b01101: C_reg = A<<13;   							//Shift left 13 position
+									5'b01110: C_reg = A<<14;   							//Shift left 14 position
+									5'b01111: C_reg = A<<15;   							//Shift left 15 position
+									5'b10000: C_reg = A<<16;   							//Shift left 16 position
+									5'b10001: C_reg = A<<17;   							//Shift left 17 position
+									5'b10010: C_reg = A<<18;   							//Shift left 18 position
+									5'b10011: C_reg = A<<19;   							//Shift left 19 position
+								   5'b10100: C_reg = A<<20;   							//Shift left 20 position
+									5'b10101: C_reg = A<<21;   							//Shift left 21 position
+									5'b10110: C_reg = A<<22;   							//Shift left 22 position
+									5'b10111: C_reg = A<<23;   							//Shift left 23 position
+									5'b11000: C_reg = A<<24;   							//Shift left 24 position
+									5'b11001: C_reg = A<<25;   							//Shift left 25 position
+									5'b11010: C_reg = A<<26;   							//Shift left 26 position
+									5'b11011: C_reg = A<<27;   							//Shift left 27 position
+								   5'b11100: C_reg = A<<28;   							//Shift left 28 position
+									5'b11101: C_reg = A<<29;   							//Shift left 29 position
+									5'b11110: C_reg = A<<30;   							//Shift left 30 position
+									5'b11111: C_reg = A<<31;   							//Shift left 31 position
+									default: C_reg = A;
+								endcase
+								end
+							else	begin										//Shift rigth 
+								case (B[4:0])
+									5'b00001: C_reg = A>>1;   								//Shift rigth 1 position
+									5'b00010: C_reg = A>>2;   								//Shift rigth 2 position
+									5'b00011: C_reg = A>>3;   								//Shift rigth 3 position
+								   5'b00100: C_reg = A>>4;   								//Shift rigth 4 position
+									5'b00101: C_reg = A>>5;   								//Shift rigth 5 position
+									5'b00110: C_reg = A>>6;   								//Shift rigth 6 position
+									5'b00111: C_reg = A>>7;   								//Shift rigth 7 position
+									5'b01000: C_reg = A>>8;   								//Shift rigth 8 position
+									5'b01001: C_reg = A>>9;   								//Shift rigth 9 position
+									5'b01010: C_reg = A>>10;   							//Shift rigth 10 position
+									5'b01011: C_reg = A>>11;   							//Shift rigth 11 position
+								   5'b01100: C_reg = A>>12;   							//Shift rigth 12 position
+									5'b01101: C_reg = A>>13;   							//Shift rigth 13 position
+									5'b01110: C_reg = A>>14;   							//Shift rigth 14 position
+									5'b01111: C_reg = A>>15;   							//Shift rigth 15 position
+									5'b10000: C_reg = A>>16;   							//Shift rigth 16 position
+									5'b10001: C_reg = A>>17;   							//Shift rigth 17 position
+									5'b10010: C_reg = A>>18;   							//Shift rigth 18 position
+									5'b10011: C_reg = A>>19;   							//Shift rigth 19 position
+								   5'b10100: C_reg = A>>20;   							//Shift rigth 20 position
+									5'b10101: C_reg = A>>21;   							//Shift rigth 21 position
+									5'b10110: C_reg = A>>22;   							//Shift rigth 22 position
+									5'b10111: C_reg = A>>23;   							//Shift rigth 23 position
+									5'b11000: C_reg = A>>24;   							//Shift rigth 24 position
+									5'b11001: C_reg = A>>25;   							//Shift rigth 25 position
+									5'b11010: C_reg = A>>26;   							//Shift rigth 26 position
+									5'b11011: C_reg = A>>27;   							//Shift rigth 27 position
+								   5'b11100: C_reg = A>>28;   							//Shift rigth 28 position
+									5'b11101: C_reg = A>>29;   							//Shift rigth 29 position
+									5'b11110: C_reg = A>>30;   							//Shift rigth 30 position
+									5'b11111: C_reg = A>>31;   							//Shift rigth 31 position
+									default: C_reg = A;
+								endcase
+								end
+						end
+			default: C_reg = A;											//Default
+		endcase	
+	
+	end
+
+assign C = C_reg;									//Assign result to the output
+assign carry_w = A+B;    						//carry temporal register 
+assign carry[0] = carry_w[WORD_LENGTH];	//Assign carry to the output
+
+
+endmodule
