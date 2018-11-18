@@ -28,30 +28,30 @@ module MIPS
 	// Input Ports
 	input clk,
 	input reset,
-	input start,
 	
 	// Output Ports
-	output SerialOut
+	output SerialOutEn,
+	output [WORD_LENGTH-1:0] SerialData
 
 );
 
 //Internal connections
 
-wire PCen;
-wire [WORD_LENGTH-1:0] PC_out;
+wire PCen;												
+wire [WORD_LENGTH-1:0] PC_out;					
 wire [WORD_LENGTH-1:0] PC_R;
 
 wire [WORD_LENGTH-1:0] Mem_addr_in;
-wire IorD;
-wire IRWrite;
+wire IorD;												
+wire IRWrite;											
 wire [WORD_LENGTH-1:0] Instr;
-wire DRWrite;
+wire DRWrite;											
 wire [WORD_LENGTH-1:0] Data;
 
-wire RegWrite;
+wire RegWrite;											
 wire [4:0] A3_MUX_Out;
-wire RegDst;
-wire MemtoReg;
+wire RegDst;											
+wire MemtoReg;											
 wire [WORD_LENGTH-1:0] WD3_MUX_Out;
 wire [WORD_LENGTH-1:0] RD1;
 wire [WORD_LENGTH-1:0] RD2;
@@ -60,27 +60,28 @@ wire [WORD_LENGTH-1:0] B;
 
 wire [WORD_LENGTH-1:0] SignImm;
 
-wire ALUSrcA;
+wire ALUSrcA;											
 wire [WORD_LENGTH-1:0] SrcA;
-wire [1:0] ALUSrcB;
+wire [1:0] ALUSrcB;									
 wire [WORD_LENGTH-1:0] SrcB;
 
 wire [WORD_LENGTH-1:0] ALUResult;
-wire ALU_en;
+wire ALU_en;											
 wire [WORD_LENGTH-1:0] ALUout;
 wire [WORD_LENGTH-1:0] carry;
+wire [4:0] ALUControl;								
 
-wire PCSrc;
+wire PCSrc;												
 
 
-wire MemWrite;
-wire Page;
+wire MemWrite;											
+wire Page;												
 wire [WORD_LENGTH-1:0] Memory_out;
 
 
 //Assignations
 
-
+assign SerialData = ALUout;
 
 
 //MIPS instance
@@ -306,6 +307,7 @@ ALU_ints			            	//ALU instance
 (
 	.A(SrcA),
 	.B(SrcB),
+	.control(ALUControl),
 	
 	.C(ALUResult),
 	.carry(carry)
@@ -343,5 +345,35 @@ PC_Src_MUX			            	//PC Src MUX instance
 
 );
 
+//-----------------------Control Unit-----------------------------------
+ControlUnit
+#(
+	.DATA_WIDTH(WORD_LENGTH)
+) 
+CU_Instance			            	//Control Unit instance
+(
+	.clk(clk),
+	.reset(reset),
+	.Op(Instr[31:26]),
+	.Funct(Instr[5:0]), 
+	
+	// Output Ports
+	.PCen(PCen),
+	.IorD(IorD),
+	.MemWrite(MemWrite),
+	.IRWrite(IRWrite),
+	.DRWrite(DRWrite),
+	.RegWrite(RegWrite),
+	.RegDst(RegDst),
+	.MemtoReg(MemtoReg),
+	.ALUSrcA(ALUSrcA),
+	.ALUSrcB(ALUSrcB),
+	.ALUControl(ALUControl),
+	.ALU_en(ALU_en),
+	.PCSrc(PCSrc),
+	.Page(Page),
+	.SerialOutEn(SerialOutEn)
+
+);
 
 endmodule
