@@ -1,4 +1,4 @@
- /******************************************************************* 
+/******************************************************************* 
 * Name:
 *	PC.v
 * Description:
@@ -28,6 +28,8 @@ module MIPS
 	// Input Ports
 	input clk,
 	input reset,
+	input TX_flag,
+	input start,
 	
 	// Output Ports
 	output SerialOutEn,
@@ -356,6 +358,8 @@ CU_Instance			            	//Control Unit instance
 	.reset(reset),
 	.Op(Instr[31:26]),
 	.Funct(Instr[5:0]), 
+	.TX_flag(TX_flag),
+	.start(start),
 	
 	// Output Ports
 	.PCen(PCen),

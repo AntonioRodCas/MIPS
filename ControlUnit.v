@@ -29,6 +29,8 @@ module ControlUnit
 	input reset,
 	input [5:0] Op,
 	input [5:0] Funct, 
+	input TX_flag,
+	input start,
 	
 	// Output Ports
 	output reg PCen,
@@ -59,16 +61,19 @@ localparam IWrBckI = 5;
 localparam IWrBckL = 6;
 localparam IWrBckS = 7;
 localparam IWrBckU = 8;
+localparam IWrBckU2 = 9;
+localparam IWrBckU3 = 10;
 
-localparam addi = 9;
-localparam add = 10;
-localparam sll = 11;
-localparam Ior = 12;
-localparam andi = 13;
-localparam sw = 14;
-localparam lw = 15;
-localparam UART = 16;
+localparam addi = 11;
+localparam add = 12;
+localparam sll = 13;
+localparam Ior = 14;
+localparam andi = 15;
+localparam sw = 16;
+localparam lw = 17;
+localparam UART = 18;
 
+localparam IDLE = 19;
 
 reg [4:0]State /*synthesis keep*/ ;
 
@@ -76,11 +81,19 @@ reg [4:0]State /*synthesis keep*/ ;
 
 always@(posedge clk or negedge reset) begin
 	if (reset==0)
-		State <= IFetch;
+		State <= IDLE;
 	else 
 		case(State)
+			
+			IDLE:
+				if(start == 1)
+					State <= IFetch;
+				else
+					State <= IDLE;
+			
 			IFetch:
 				State <= IDecode;
+				
 				
 			IDecode:
 				case(Op)
@@ -141,6 +154,18 @@ always@(posedge clk or negedge reset) begin
 				
 			IWrBckS:
 				State <= IFetch;
+				
+			IWrBckU:
+				State <= IWrBckU2;
+			
+			IWrBckU2:
+				if(TX_flag == 1)
+					State <= IWrBckU3;
+				else
+					State <= IWrBckU2;
+				
+			IWrBckU3:
+				State <= IDLE;
 				
 			default:
 				State <= IFetch;
@@ -279,6 +304,16 @@ always@(State) begin
 				begin
 					SerialOutEn = 1;
 				end
+				
+			IWrBckU2:
+				begin
+					SerialOutEn = 0;
+				end
+				
+			IWrBckU3:
+				begin 
+					SerialOutEn = 0;
+				end
 			
 			default:
 				begin
@@ -296,6 +331,7 @@ always@(State) begin
 					ALU_en = 0;
 					PCSrc = 0;
 					Page = 0;
+					SerialOutEn = 0;
 				end
 		endcase
 end

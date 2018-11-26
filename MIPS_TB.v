@@ -18,6 +18,8 @@ parameter NBITS = 8;
 
 reg clk_tb = 0;
 reg reset_tb;
+reg TX_flag_tb;
+reg start_tb;
 
 
 
@@ -34,6 +36,8 @@ MIPS_1
 (
 	.clk(clk_tb),
 	.reset(reset_tb),
+	.TX_flag(TX_flag_tb),
+	.start(start_tb),
 	
 	
 	.SerialOutEn(SerialOutEn_tb),
@@ -52,5 +56,19 @@ initial begin // reset generator
    #5 reset_tb = 1;
 end
 
+initial begin // reset generator
+   #0 TX_flag_tb = 0;
+   #300 TX_flag_tb = 1;
+	#5 TX_flag_tb = 0;
+	#100 TX_flag_tb = 1;
+	#5 TX_flag_tb = 0;
+	#25 TX_flag_tb = 1;
+	#5 TX_flag_tb = 0;
+end
+
+initial begin // reset generator
+   #0 start_tb = 0;
+   #10 start_tb = 1;
+end
 
 endmodule
