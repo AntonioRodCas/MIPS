@@ -4,11 +4,9 @@
 * Description:
 * 	This module is parameterizable Program Counter
 * Inputs:
-*	clk: Clock signal 
-*  reset: Reset signal
-*	enable: Enable input
+*	Data: Input data to be extended
 * Outputs:
-* 	PC: Program Counter
+* 	SignImm: Extended data with sign conservation
 * Versión:  
 *	1.0
 * Author: 

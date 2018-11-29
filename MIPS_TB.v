@@ -60,7 +60,7 @@ initial begin // reset generator
    #0 TX_flag_tb = 0;
    #300 TX_flag_tb = 1;
 	#5 TX_flag_tb = 0;
-	#100 TX_flag_tb = 1;
+	#30 TX_flag_tb = 1;
 	#5 TX_flag_tb = 0;
 	#25 TX_flag_tb = 1;
 	#5 TX_flag_tb = 0;

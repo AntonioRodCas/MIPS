@@ -4,13 +4,11 @@
 * Description:
 * 	This module is parameterizable Program Counter
 * Inputs:
-*	WD: Write Data port
-*	Addr: Address port
-*	we: Write Enable
-*	clk: Clock input signal
-*	Page: Page selector ROM/RAM
+*	clk: Clock signal 
+*  reset: Reset signal
+*	enable: Enable input
 * Outputs:
-* 	q: Data Output
+* 	PC: Program Counter
 * Versión:  
 *	1.0
 * Author: 

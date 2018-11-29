@@ -6,9 +6,26 @@
 * Inputs:
 *	clk: Clock signal 
 *  reset: Reset signal
-*	enable: Enable input
+*	Op: Op code input
+*	Funct: Funct code from Instruction bus line
+* 	Tx_flag: TX done flag input
+*	start: Start input line 
 * Outputs:
-* 	PC: Program Counter
+* 	PCen: PCen control line
+*	IorD: IorD control line
+*	MemWrite: MemWrite control line
+*	IRWrite: IRWrite control line
+*	DRWrite: DRWrite control line
+*	RegWrite: RegWrite control line
+*	RegDst: RegDst control line
+* 	MemtoReg: MemtoReg control line
+*	ALUSrcA: ALUSrcA control line
+*	ALUSrcB: ALUSrcB control line
+*	ALUControl: ALUControl Control line
+*	ALU_en: ALU_en control line
+*	PCSrc: PCSrc control line
+*	Page: Page control line
+*	SerialOutEn: SerialOutEn control line
 * Versión:  
 *	1.0
 * Author: 

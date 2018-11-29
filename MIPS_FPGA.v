@@ -6,9 +6,11 @@
 * Inputs:
 *	clk: Clock signal 
 *  reset: Reset signal
-*	enable: Enable input
+*	SerialDatain: Dummy RX line
+* 	start: Start input line
 * Outputs:
-* 	PC: Program Counter
+* 	SerialDataOut: UART TX output line
+*	SerialOutEn_test: Test signal for Signal Tap
 * Versión:  
 *	1.0
 * Author: 

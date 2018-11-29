@@ -6,9 +6,11 @@
 * Inputs:
 *	clk: Clock signal 
 *  reset: Reset signal
-*	enable: Enable input
+*	TX_flag: Transmited data done flag
+*	start: Start signal
 * Outputs:
-* 	PC: Program Counter
+* 	SerialOutEn: Serial TX transmit signal
+*	SerialData: Data to be transmited
 * Versión:  
 *	1.0
 * Author: 
